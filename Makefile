@@ -8,7 +8,7 @@ runclient:
 
 .PHONY: gen
 gen:
-	python -m grpc_tools.protoc -I protos  --python_out=gen --pyi_out=gen --grpc_python_out=gen protos/*
+	python -m grpc_tools.protoc -Igen=protos  --python_out=. --pyi_out=. --grpc_python_out=. protos/*.proto
 
 .PHONY: cleancode
 cleancode:

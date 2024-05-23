@@ -2,5 +2,30 @@ syntax = "proto3";
 
 
 service ChatService {
+    rpc CreateMessage (MessageCreateRequest) returns (MessageCreateReply);
+
+    rpc GetMessage (MessageReadRequest) returns (MessageReadReply);
+}
+
+
+
+
+message MessageCreateRequest {
+    string text = 1;
+    int64 receiver_id = 2;
+}
+
+message MessageCreateReply {
+    int64 message_id = 1;
+}
+
+
+message MessageReadRequest {
+
+}
+
+
+
+message MessageReadReply {
 
 }
