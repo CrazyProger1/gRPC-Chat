@@ -5,6 +5,12 @@ service ChatService {
     rpc CreateMessage (MessageCreateRequest) returns (MessageCreateReply);
 
     rpc GetMessage (MessageReadRequest) returns (MessageReadReply);
+
+    rpc GetMessages (MessagesFilteredRequest) returns (stream MessageReadReply);
+
+    rpc UpdateMessage (MessageUpdateRequest) returns (MessageUpdateReply);
+
+    rpc DeleteMessage (MessageDeleteRequest) returns (MessageDeleteReply);
 }
 
 
@@ -21,11 +27,34 @@ message MessageCreateReply {
 
 
 message MessageReadRequest {
+    int64 message_id = 1;
+}
+
+message MessagesFilteredRequest {
 
 }
 
 
-
 message MessageReadReply {
+    int64 message_id = 1;
+    string text = 2;
+    int64 sender_id = 3;
+
+}
+
+message MessageUpdateRequest {
+    int64 message_id = 1;
+    string text = 2;
+}
+
+message MessageUpdateReply {
+
+}
+
+message MessageDeleteRequest {
+    int64 message_id = 1;
+}
+
+message MessageDeleteReply {
 
 }

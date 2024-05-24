@@ -55,6 +55,24 @@ class ChatServiceStub(object):
             response_deserializer=gen_dot_chat__pb2.MessageReadReply.FromString,
             _registered_method=True,
         )
+        self.GetMessages = channel.unary_stream(
+            "/ChatService/GetMessages",
+            request_serializer=gen_dot_chat__pb2.MessagesFilteredRequest.SerializeToString,
+            response_deserializer=gen_dot_chat__pb2.MessageReadReply.FromString,
+            _registered_method=True,
+        )
+        self.UpdateMessage = channel.unary_unary(
+            "/ChatService/UpdateMessage",
+            request_serializer=gen_dot_chat__pb2.MessageUpdateRequest.SerializeToString,
+            response_deserializer=gen_dot_chat__pb2.MessageUpdateReply.FromString,
+            _registered_method=True,
+        )
+        self.DeleteMessage = channel.unary_unary(
+            "/ChatService/DeleteMessage",
+            request_serializer=gen_dot_chat__pb2.MessageDeleteRequest.SerializeToString,
+            response_deserializer=gen_dot_chat__pb2.MessageDeleteReply.FromString,
+            _registered_method=True,
+        )
 
 
 class ChatServiceServicer(object):
@@ -72,6 +90,24 @@ class ChatServiceServicer(object):
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
+    def GetMessages(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
+
+    def UpdateMessage(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
+
+    def DeleteMessage(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
+
 
 def add_ChatServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -84,6 +120,21 @@ def add_ChatServiceServicer_to_server(servicer, server):
             servicer.GetMessage,
             request_deserializer=gen_dot_chat__pb2.MessageReadRequest.FromString,
             response_serializer=gen_dot_chat__pb2.MessageReadReply.SerializeToString,
+        ),
+        "GetMessages": grpc.unary_stream_rpc_method_handler(
+            servicer.GetMessages,
+            request_deserializer=gen_dot_chat__pb2.MessagesFilteredRequest.FromString,
+            response_serializer=gen_dot_chat__pb2.MessageReadReply.SerializeToString,
+        ),
+        "UpdateMessage": grpc.unary_unary_rpc_method_handler(
+            servicer.UpdateMessage,
+            request_deserializer=gen_dot_chat__pb2.MessageUpdateRequest.FromString,
+            response_serializer=gen_dot_chat__pb2.MessageUpdateReply.SerializeToString,
+        ),
+        "DeleteMessage": grpc.unary_unary_rpc_method_handler(
+            servicer.DeleteMessage,
+            request_deserializer=gen_dot_chat__pb2.MessageDeleteRequest.FromString,
+            response_serializer=gen_dot_chat__pb2.MessageDeleteReply.SerializeToString,
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -146,6 +197,96 @@ class ChatService(object):
             "/ChatService/GetMessage",
             gen_dot_chat__pb2.MessageReadRequest.SerializeToString,
             gen_dot_chat__pb2.MessageReadReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True,
+        )
+
+    @staticmethod
+    def GetMessages(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            "/ChatService/GetMessages",
+            gen_dot_chat__pb2.MessagesFilteredRequest.SerializeToString,
+            gen_dot_chat__pb2.MessageReadReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True,
+        )
+
+    @staticmethod
+    def UpdateMessage(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            "/ChatService/UpdateMessage",
+            gen_dot_chat__pb2.MessageUpdateRequest.SerializeToString,
+            gen_dot_chat__pb2.MessageUpdateReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True,
+        )
+
+    @staticmethod
+    def DeleteMessage(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            "/ChatService/DeleteMessage",
+            gen_dot_chat__pb2.MessageDeleteRequest.SerializeToString,
+            gen_dot_chat__pb2.MessageDeleteReply.FromString,
             options,
             channel_credentials,
             insecure,
