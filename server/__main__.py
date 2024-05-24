@@ -15,7 +15,9 @@ from server.config import (
 )
 from server.database.engine import engine
 from server.database.models import metadata
-from server.interceptors.auth import AuthInterceptor
+from server.database.repositories.message import MessageRepository
+from server.database.repositories.user import UserRepository
+from server.interceptors.auth import JWTAuthInterceptor
 from server.interceptors.logging import LoggingInterceptor
 from server.services.auth import AuthService
 from server.services.chat import ChatService
@@ -49,17 +51,24 @@ def init_db():
 
 
 def runserver():
+    user_repository = UserRepository(engine=engine)
+    message_repository = MessageRepository(engine=engine)
+
     server = grpc.server(
         thread_pool=futures.ThreadPoolExecutor(max_workers=MAX_WORKERS),
         interceptors=(
             LoggingInterceptor(),
-            AuthInterceptor(),
+            JWTAuthInterceptor(repository=user_repository),
         ),
     )
     logger.info("Server initialized")
 
-    chat_pb2_grpc.add_ChatServiceServicer_to_server(ChatService(), server)
-    auth_pb2_grpc.add_AuthServiceServicer_to_server(AuthService(), server)
+    chat_pb2_grpc.add_ChatServiceServicer_to_server(
+        ChatService(repository=message_repository), server
+    )
+    auth_pb2_grpc.add_AuthServiceServicer_to_server(
+        AuthService(repository=user_repository), server
+    )
     server.add_insecure_port(ADDRESS)
 
     logger.info("Starting server...")

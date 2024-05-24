@@ -1,17 +1,24 @@
 import logging
-from typing import Callable
+from typing import Any, Callable
 
 import grpc
+import grpc_interceptor
 
 logger = logging.getLogger("chat")
 
 
-class LoggingInterceptor(grpc.ServerInterceptor):
-    def intercept_service(self, continuation: Callable, handler_call_details):
-        logger.info(f"Received RPC call: {handler_call_details.method}")
+class LoggingInterceptor(grpc_interceptor.ServerInterceptor):
+    def intercept(
+        self,
+        method: Callable,
+        request_or_iterator: Any,
+        context: grpc.ServicerContext,
+        method_name: str,
+    ) -> Any:
+        logger.info(f"Received RPC call: {method_name}")
 
-        response = continuation(handler_call_details)
+        reply = method(request_or_iterator, context)
 
-        logger.info(f"Completed RPC call: {handler_call_details.method}")
+        logger.info(f"Completed RPC call: {method_name}")
 
-        return response
+        return reply

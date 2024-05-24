@@ -2,16 +2,17 @@ import datetime
 import logging
 
 import jwt
+
 from .exceptions import JWTError
 
-logger = logging.getLogger("utils.jwt")
+logger = logging.getLogger("chat")
 
 
 def generate_token(
-        payload: dict,
-        secret_key: str,
-        lifetime: datetime.timedelta = datetime.timedelta(days=1),
-        algorithm: str = "HS256",
+    payload: dict,
+    secret_key: str,
+    lifetime: datetime.timedelta = datetime.timedelta(days=1),
+    algorithm: str = "HS256",
 ):
     data = {
         "exp": datetime.datetime.now(datetime.UTC) + lifetime,
