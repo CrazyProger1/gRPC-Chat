@@ -14,3 +14,4 @@ gen:
 cleancode:
 	isort .
 	black .
+
