@@ -38,11 +38,11 @@ class JWTAuthInterceptor(grpc_interceptor.ServerInterceptor):
             pass
 
     def intercept(
-            self,
-            method: Callable,
-            request_or_iterator: Any,
-            context: grpc.ServicerContext,
-            method_name: str,
+        self,
+        method: Callable,
+        request_or_iterator: Any,
+        context: grpc.ServicerContext,
+        method_name: str,
     ) -> Any:
 
         metadata = context.invocation_metadata()

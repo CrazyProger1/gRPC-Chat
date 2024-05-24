@@ -14,8 +14,20 @@ class SQLAlchemyRepository(BaseRepository):
     model: Base
     pk_column: str = "id"
 
-    def __init__(self, engine: db.Engine):
+    def __init__(self, engine):
         self._engine = engine
+
+    def _get_sqlalchemy_filters(self, **filters):
+        yield from (
+            self.get_col(col) == val
+            for col, val in filters.items()
+        )
+
+    def _read(self, session, **filters):
+        return (
+            session.query(self.model)
+            .filter(*self._get_sqlalchemy_filters(**filters))
+        )
 
     def get_col(self, column: str) -> db.Column:
         try:
@@ -44,20 +56,44 @@ class SQLAlchemyRepository(BaseRepository):
             logger.info(f"Object retrieved: {instance}")
             return instance
 
-    def read_by(self, column: str, value: any):
+    def read_by(self, **filters):
         with Session(self._engine) as session:
-            logger.info(f"Retrieving object by {column}: {value}")
-            instance = (
-                session.query(self.model).filter(self.get_col(column) == value).first()
-            )
+            logger.info(f"Retrieving object by {filters}")
+
+            instance = self._read(session=session, **filters).first()
+
             logger.info(f"Object retrieved: {instance}")
             return instance
 
-    def read_many(self, filters: dict) -> Iterable:
-        pass
+    def read_many(self, **filters):
+        with Session(self._engine) as session:
+            logger.info(f"Retrieving objects by {filters}")
 
-    def update(self, pk: any, data: dict) -> dict:
-        pass
+            instances = self._read(session=session, **filters)
+
+            logger.info(f"Objects retrieved: {instances}")
+            return instances
+
+    def update(self, pk: any, data: dict):
+        with Session(self._engine) as session:
+            logger.info(f"Updating object {pk}: {data}")
+
+            session.query(self.model).filter(self.get_pk_col() == pk).update({
+                self.get_col(col): val
+                for col, val in data.items()
+            })
+            session.commit()
+
+            logger.info(f"Object updated: {data}")
 
     def delete(self, pk: any):
-        pass
+        with Session(self._engine) as session:
+            logger.info(f"Deleting object: {pk}")
+
+            session.query(self.model).filter(self.get_pk_col() == pk).delete()
+            session.commit()
+
+            logger.info(f"Object deleted: {pk}")
+
+    def exists(self, **filters) -> bool:
+        return self.read_by(**filters) is not None

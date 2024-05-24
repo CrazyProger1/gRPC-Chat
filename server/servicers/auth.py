@@ -4,17 +4,17 @@ from typing import Callable
 from gen import auth_pb2, auth_pb2_grpc
 from server.config import JWT_ACCESS_LIFETIME, JWT_REFRESH_LIFETIME, SECRET
 from server.database.repositories.user import UserRepository
+from server.servicers.healthy import HealthyServicer
 from server.utils.jwt import decode_token, generate_token
 from server.utils.logging import catch
 from server.utils.password import hash_password
-from server.servicers.healthy import HealthyServicer
 
 logger = logging.getLogger("chat")
 
 
 class AuthServicer(auth_pb2_grpc.AuthServicer, HealthyServicer):
-    def __init__(self, repository: UserRepository, set_health: Callable):
-        self._repository = repository
+    def __init__(self, user_repository: UserRepository, set_health: Callable):
+        self._user_repository = user_repository
 
         super().__init__(set_health=set_health)
 
@@ -22,7 +22,7 @@ class AuthServicer(auth_pb2_grpc.AuthServicer, HealthyServicer):
     def RegisterUser(self, request: auth_pb2.UserRegisterRequest, context, **kwargs):
         hashed_password = hash_password(request.password, secret_key=SECRET)
 
-        self._repository.create(
+        self._user_repository.create(
             {
                 "email": request.email,
                 "nickname": request.nickname,
@@ -34,7 +34,7 @@ class AuthServicer(auth_pb2_grpc.AuthServicer, HealthyServicer):
 
     @catch(onlylog=True)
     def LoginUser(self, request: auth_pb2.UserLoginRequest, context, **kwargs):
-        user = self._repository.read_by("email", request.email)
+        user = self._user_repository.read_by(email=request.email)
 
         access = generate_token(
             payload={"id": user.id, "type": "access"},

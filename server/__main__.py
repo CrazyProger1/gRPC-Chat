@@ -6,7 +6,7 @@ import grpc
 from dotenv import load_dotenv
 from grpc_health.v1 import health, health_pb2, health_pb2_grpc
 
-from gen import auth_pb2_grpc, chat_pb2_grpc, auth_pb2, chat_pb2
+from gen import auth_pb2_grpc, chat_pb2_grpc
 from server.config import (
     ADDRESS,
     LOGGING_DATEFMT,
@@ -44,7 +44,9 @@ def configure_logging():
     logger.addHandler(console_handler)
 
 
-def configure_healthcheck(server: grpc.Server) -> Callable[[str, health_pb2.HealthCheckResponse.ServingStatus], any]:
+def configure_healthcheck(
+    server: grpc.Server,
+) -> Callable[[str, health_pb2.HealthCheckResponse.ServingStatus], any]:
     health_servicer = health.HealthServicer(
         experimental_non_blocking=True,
         experimental_thread_pool=futures.ThreadPoolExecutor(
@@ -85,14 +87,15 @@ def runserver():
 
     chat_pb2_grpc.add_ChatServicerServicer_to_server(
         servicer=ChatServicer(
-            repository=message_repository,
+            message_repository=message_repository,
+            user_repository=user_repository,
             set_health=set_health,
         ),
         server=server,
     )
     auth_pb2_grpc.add_AuthServicerServicer_to_server(
         servicer=AuthServicer(
-            repository=user_repository,
+            user_repository=user_repository,
             set_health=set_health,
         ),
         server=server,
