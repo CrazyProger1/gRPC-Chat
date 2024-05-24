@@ -8,7 +8,12 @@ metadata = db.MetaData()
 Base = declarative_base(metadata=metadata)
 
 
-class User(Base):
+class PrintableModel:
+    def __repr__(self):
+        return f"{type(self).__name__}(id={getattr(self, 'id', None)})"
+
+
+class User(Base, PrintableModel):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -21,7 +26,7 @@ class User(Base):
     is_verified = db.Column(db.Boolean, default=False, nullable=False)
 
 
-class Message(Base):
+class Message(Base, PrintableModel):
     __tablename__ = "message"
 
     id = db.Column(db.Integer, primary_key=True)

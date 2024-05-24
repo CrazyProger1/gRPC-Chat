@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
-    b'\n\x0egen/chat.proto"9\n\x14MessageCreateRequest\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\x13\n\x0breceiver_id\x18\x02 \x01(\x03"(\n\x12MessageCreateReply\x12\x12\n\nmessage_id\x18\x01 \x01(\x03"(\n\x12MessageReadRequest\x12\x12\n\nmessage_id\x18\x01 \x01(\x03"\x19\n\x17MessagesFilteredRequest"G\n\x10MessageReadReply\x12\x12\n\nmessage_id\x18\x01 \x01(\x03\x12\x0c\n\x04text\x18\x02 \x01(\t\x12\x11\n\tsender_id\x18\x03 \x01(\x03"8\n\x14MessageUpdateRequest\x12\x12\n\nmessage_id\x18\x01 \x01(\x03\x12\x0c\n\x04text\x18\x02 \x01(\t"\x14\n\x12MessageUpdateReply"*\n\x14MessageDeleteRequest\x12\x12\n\nmessage_id\x18\x01 \x01(\x03"\x14\n\x12MessageDeleteReply2\xb8\x02\n\x0b\x43hatService\x12;\n\rCreateMessage\x12\x15.MessageCreateRequest\x1a\x13.MessageCreateReply\x12\x34\n\nGetMessage\x12\x13.MessageReadRequest\x1a\x11.MessageReadReply\x12<\n\x0bGetMessages\x12\x18.MessagesFilteredRequest\x1a\x11.MessageReadReply0\x01\x12;\n\rUpdateMessage\x12\x15.MessageUpdateRequest\x1a\x13.MessageUpdateReply\x12;\n\rDeleteMessage\x12\x15.MessageDeleteRequest\x1a\x13.MessageDeleteReplyb\x06proto3'
+    b'\n\x0egen/chat.proto"9\n\x14MessageCreateRequest\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\x13\n\x0breceiver_id\x18\x02 \x01(\x03"(\n\x12MessageCreateReply\x12\x12\n\nmessage_id\x18\x01 \x01(\x03"(\n\x12MessageReadRequest\x12\x12\n\nmessage_id\x18\x01 \x01(\x03"\x19\n\x17MessagesFilteredRequest"G\n\x10MessageReadReply\x12\x12\n\nmessage_id\x18\x01 \x01(\x03\x12\x0c\n\x04text\x18\x02 \x01(\t\x12\x11\n\tsender_id\x18\x03 \x01(\x03"8\n\x14MessageUpdateRequest\x12\x12\n\nmessage_id\x18\x01 \x01(\x03\x12\x0c\n\x04text\x18\x02 \x01(\t"\x14\n\x12MessageUpdateReply"*\n\x14MessageDeleteRequest\x12\x12\n\nmessage_id\x18\x01 \x01(\x03"\x14\n\x12MessageDeleteReply2\xb9\x02\n\x0c\x43hatServicer\x12;\n\rCreateMessage\x12\x15.MessageCreateRequest\x1a\x13.MessageCreateReply\x12\x34\n\nGetMessage\x12\x13.MessageReadRequest\x1a\x11.MessageReadReply\x12<\n\x0bGetMessages\x12\x18.MessagesFilteredRequest\x1a\x11.MessageReadReply0\x01\x12;\n\rUpdateMessage\x12\x15.MessageUpdateRequest\x1a\x13.MessageUpdateReply\x12;\n\rDeleteMessage\x12\x15.MessageDeleteRequest\x1a\x13.MessageDeleteReplyb\x06proto3'
 )
 
 _globals = globals()
@@ -40,6 +40,6 @@ if not _descriptor._USE_C_DESCRIPTORS:
     _globals["_MESSAGEDELETEREQUEST"]._serialized_end = 383
     _globals["_MESSAGEDELETEREPLY"]._serialized_start = 385
     _globals["_MESSAGEDELETEREPLY"]._serialized_end = 405
-    _globals["_CHATSERVICE"]._serialized_start = 408
-    _globals["_CHATSERVICE"]._serialized_end = 720
+    _globals["_CHATSERVICER"]._serialized_start = 408
+    _globals["_CHATSERVICER"]._serialized_end = 721
 # @@protoc_insertion_point(module_scope)

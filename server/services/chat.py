@@ -1,17 +1,21 @@
 import logging
+from typing import Callable
 
 from gen import chat_pb2, chat_pb2_grpc
 from server.database.repositories.message import MessageRepository
+from server.services.healthy import HealthyServicer
 from server.services.permissions import is_authenticated
-from server.utils.permissions import permissions
 from server.utils.logging import catch
+from server.utils.permissions import permissions
 
 logger = logging.getLogger("chat")
 
 
-class ChatService(chat_pb2_grpc.ChatService):
-    def __init__(self, repository: MessageRepository):
+class ChatServicer(chat_pb2_grpc.ChatServicer, HealthyServicer):
+    def __init__(self, repository: MessageRepository, set_health: Callable):
         self._repository = repository
+
+        super().__init__(set_health=set_health)
 
     @catch(onlylog=True)
     @permissions(is_authenticated)
@@ -25,10 +29,12 @@ class ChatService(chat_pb2_grpc.ChatService):
         return chat_pb2.MessageCreateReply(message_id=result.id)
 
     @catch(onlylog=True)
+    @permissions(is_authenticated)
     def GetMessage(self, request: chat_pb2.MessageReadRequest, context, **kwargs):
         return chat_pb2.MessageReadReply()
 
     @catch(onlylog=True)
+    @permissions(is_authenticated)
     def GetMessages(self, request: chat_pb2.MessagesFilteredRequest, context, **kwargs):
         yield
 

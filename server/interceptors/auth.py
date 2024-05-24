@@ -38,6 +38,8 @@ class JWTAuthInterceptor(grpc_interceptor.ServerInterceptor):
                 payload = decode_token(token=token, secret_key=SECRET)
                 user = self._repository.read(pk=payload["id"])
                 context.user = user
+
+                logger.info(f"User authenticated: {user}")
             except JWTError as e:
                 pass
 

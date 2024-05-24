@@ -1,10 +1,12 @@
 import logging
 from concurrent import futures
+from typing import Callable
 
 import grpc
 from dotenv import load_dotenv
+from grpc_health.v1 import health, health_pb2, health_pb2_grpc
 
-from gen import auth_pb2_grpc, chat_pb2_grpc
+from gen import auth_pb2_grpc, chat_pb2_grpc, auth_pb2, chat_pb2
 from server.config import (
     ADDRESS,
     LOGGING_DATEFMT,
@@ -19,8 +21,8 @@ from server.database.repositories.message import MessageRepository
 from server.database.repositories.user import UserRepository
 from server.interceptors.auth import JWTAuthInterceptor
 from server.interceptors.logging import LoggingInterceptor
-from server.services.auth import AuthService
-from server.services.chat import ChatService
+from server.services.auth import AuthServicer
+from server.services.chat import ChatServicer
 
 load_dotenv()
 
@@ -40,6 +42,22 @@ def configure_logging():
     logger.setLevel(LOGGING_LEVEL)
     logger.addHandler(file_handler)
     logger.addHandler(console_handler)
+
+
+def configure_healthcheck(server: grpc.Server) -> Callable[[str, health_pb2.HealthCheckResponse.ServingStatus], any]:
+    health_servicer = health.HealthServicer(
+        experimental_non_blocking=True,
+        experimental_thread_pool=futures.ThreadPoolExecutor(
+            max_workers=MAX_WORKERS,
+        ),
+    )
+
+    health_pb2_grpc.add_HealthServicer_to_server(
+        servicer=health_servicer,
+        server=server,
+    )
+
+    return lambda serv, status: health_servicer.set(serv, status)
 
 
 def init_db():
@@ -63,12 +81,23 @@ def runserver():
     )
     logger.info("Server initialized")
 
-    chat_pb2_grpc.add_ChatServiceServicer_to_server(
-        ChatService(repository=message_repository), server
+    set_health = configure_healthcheck(server=server)
+
+    chat_pb2_grpc.add_ChatServicerServicer_to_server(
+        servicer=ChatServicer(
+            repository=message_repository,
+            set_health=set_health,
+        ),
+        server=server,
     )
-    auth_pb2_grpc.add_AuthServiceServicer_to_server(
-        AuthService(repository=user_repository), server
+    auth_pb2_grpc.add_AuthServicerServicer_to_server(
+        servicer=AuthServicer(
+            repository=user_repository,
+            set_health=set_health,
+        ),
+        server=server,
     )
+
     server.add_insecure_port(ADDRESS)
 
     logger.info("Starting server...")

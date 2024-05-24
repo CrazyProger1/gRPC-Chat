@@ -34,7 +34,7 @@ if _version_not_supported:
     )
 
 
-class AuthServiceStub(object):
+class AuthServicerStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -44,26 +44,26 @@ class AuthServiceStub(object):
             channel: A grpc.Channel.
         """
         self.RegisterUser = channel.unary_unary(
-            "/AuthService/RegisterUser",
+            "/AuthServicer/RegisterUser",
             request_serializer=gen_dot_auth__pb2.UserRegisterRequest.SerializeToString,
             response_deserializer=gen_dot_auth__pb2.UserRegisterReply.FromString,
             _registered_method=True,
         )
         self.LoginUser = channel.unary_unary(
-            "/AuthService/LoginUser",
+            "/AuthServicer/LoginUser",
             request_serializer=gen_dot_auth__pb2.UserLoginRequest.SerializeToString,
             response_deserializer=gen_dot_auth__pb2.UserLoginReply.FromString,
             _registered_method=True,
         )
         self.RefreshUserToken = channel.unary_unary(
-            "/AuthService/RefreshUserToken",
+            "/AuthServicer/RefreshUserToken",
             request_serializer=gen_dot_auth__pb2.RefreshUserTokenReply.SerializeToString,
             response_deserializer=gen_dot_auth__pb2.RefreshUserTokenReply.FromString,
             _registered_method=True,
         )
 
 
-class AuthServiceServicer(object):
+class AuthServicerServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def RegisterUser(self, request, context):
@@ -85,7 +85,7 @@ class AuthServiceServicer(object):
         raise NotImplementedError("Method not implemented!")
 
 
-def add_AuthServiceServicer_to_server(servicer, server):
+def add_AuthServicerServicer_to_server(servicer, server):
     rpc_method_handlers = {
         "RegisterUser": grpc.unary_unary_rpc_method_handler(
             servicer.RegisterUser,
@@ -104,14 +104,14 @@ def add_AuthServiceServicer_to_server(servicer, server):
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        "AuthService", rpc_method_handlers
+        "AuthServicer", rpc_method_handlers
     )
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers("AuthService", rpc_method_handlers)
+    server.add_registered_method_handlers("AuthServicer", rpc_method_handlers)
 
 
 # This class is part of an EXPERIMENTAL API.
-class AuthService(object):
+class AuthServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
@@ -130,7 +130,7 @@ class AuthService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            "/AuthService/RegisterUser",
+            "/AuthServicer/RegisterUser",
             gen_dot_auth__pb2.UserRegisterRequest.SerializeToString,
             gen_dot_auth__pb2.UserRegisterReply.FromString,
             options,
@@ -160,7 +160,7 @@ class AuthService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            "/AuthService/LoginUser",
+            "/AuthServicer/LoginUser",
             gen_dot_auth__pb2.UserLoginRequest.SerializeToString,
             gen_dot_auth__pb2.UserLoginReply.FromString,
             options,
@@ -190,7 +190,7 @@ class AuthService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            "/AuthService/RefreshUserToken",
+            "/AuthServicer/RefreshUserToken",
             gen_dot_auth__pb2.RefreshUserTokenReply.SerializeToString,
             gen_dot_auth__pb2.RefreshUserTokenReply.FromString,
             options,

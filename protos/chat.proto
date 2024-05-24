@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 
-service ChatService {
+service ChatServicer {
     rpc CreateMessage (MessageCreateRequest) returns (MessageCreateReply);
 
     rpc GetMessage (MessageReadRequest) returns (MessageReadReply);

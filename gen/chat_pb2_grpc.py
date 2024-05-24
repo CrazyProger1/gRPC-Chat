@@ -34,7 +34,7 @@ if _version_not_supported:
     )
 
 
-class ChatServiceStub(object):
+class ChatServicerStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -44,38 +44,38 @@ class ChatServiceStub(object):
             channel: A grpc.Channel.
         """
         self.CreateMessage = channel.unary_unary(
-            "/ChatService/CreateMessage",
+            "/ChatServicer/CreateMessage",
             request_serializer=gen_dot_chat__pb2.MessageCreateRequest.SerializeToString,
             response_deserializer=gen_dot_chat__pb2.MessageCreateReply.FromString,
             _registered_method=True,
         )
         self.GetMessage = channel.unary_unary(
-            "/ChatService/GetMessage",
+            "/ChatServicer/GetMessage",
             request_serializer=gen_dot_chat__pb2.MessageReadRequest.SerializeToString,
             response_deserializer=gen_dot_chat__pb2.MessageReadReply.FromString,
             _registered_method=True,
         )
         self.GetMessages = channel.unary_stream(
-            "/ChatService/GetMessages",
+            "/ChatServicer/GetMessages",
             request_serializer=gen_dot_chat__pb2.MessagesFilteredRequest.SerializeToString,
             response_deserializer=gen_dot_chat__pb2.MessageReadReply.FromString,
             _registered_method=True,
         )
         self.UpdateMessage = channel.unary_unary(
-            "/ChatService/UpdateMessage",
+            "/ChatServicer/UpdateMessage",
             request_serializer=gen_dot_chat__pb2.MessageUpdateRequest.SerializeToString,
             response_deserializer=gen_dot_chat__pb2.MessageUpdateReply.FromString,
             _registered_method=True,
         )
         self.DeleteMessage = channel.unary_unary(
-            "/ChatService/DeleteMessage",
+            "/ChatServicer/DeleteMessage",
             request_serializer=gen_dot_chat__pb2.MessageDeleteRequest.SerializeToString,
             response_deserializer=gen_dot_chat__pb2.MessageDeleteReply.FromString,
             _registered_method=True,
         )
 
 
-class ChatServiceServicer(object):
+class ChatServicerServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def CreateMessage(self, request, context):
@@ -109,7 +109,7 @@ class ChatServiceServicer(object):
         raise NotImplementedError("Method not implemented!")
 
 
-def add_ChatServiceServicer_to_server(servicer, server):
+def add_ChatServicerServicer_to_server(servicer, server):
     rpc_method_handlers = {
         "CreateMessage": grpc.unary_unary_rpc_method_handler(
             servicer.CreateMessage,
@@ -138,14 +138,14 @@ def add_ChatServiceServicer_to_server(servicer, server):
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        "ChatService", rpc_method_handlers
+        "ChatServicer", rpc_method_handlers
     )
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers("ChatService", rpc_method_handlers)
+    server.add_registered_method_handlers("ChatServicer", rpc_method_handlers)
 
 
 # This class is part of an EXPERIMENTAL API.
-class ChatService(object):
+class ChatServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
@@ -164,7 +164,7 @@ class ChatService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            "/ChatService/CreateMessage",
+            "/ChatServicer/CreateMessage",
             gen_dot_chat__pb2.MessageCreateRequest.SerializeToString,
             gen_dot_chat__pb2.MessageCreateReply.FromString,
             options,
@@ -194,7 +194,7 @@ class ChatService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            "/ChatService/GetMessage",
+            "/ChatServicer/GetMessage",
             gen_dot_chat__pb2.MessageReadRequest.SerializeToString,
             gen_dot_chat__pb2.MessageReadReply.FromString,
             options,
@@ -224,7 +224,7 @@ class ChatService(object):
         return grpc.experimental.unary_stream(
             request,
             target,
-            "/ChatService/GetMessages",
+            "/ChatServicer/GetMessages",
             gen_dot_chat__pb2.MessagesFilteredRequest.SerializeToString,
             gen_dot_chat__pb2.MessageReadReply.FromString,
             options,
@@ -254,7 +254,7 @@ class ChatService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            "/ChatService/UpdateMessage",
+            "/ChatServicer/UpdateMessage",
             gen_dot_chat__pb2.MessageUpdateRequest.SerializeToString,
             gen_dot_chat__pb2.MessageUpdateReply.FromString,
             options,
@@ -284,7 +284,7 @@ class ChatService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            "/ChatService/DeleteMessage",
+            "/ChatServicer/DeleteMessage",
             gen_dot_chat__pb2.MessageDeleteRequest.SerializeToString,
             gen_dot_chat__pb2.MessageDeleteReply.FromString,
             options,
