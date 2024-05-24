@@ -1,3 +1,5 @@
 import sqlalchemy as db
 
-engine = db.create_engine("sqlite://database.db")
+from server.config import DATABASE_URI
+
+engine = db.create_engine(DATABASE_URI)

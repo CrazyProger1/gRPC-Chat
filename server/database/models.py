@@ -1,10 +1,11 @@
 from datetime import datetime
 
 import sqlalchemy as db
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
-
-class Base(db.orm.DeclarativeBase):
-    pass
+metadata = db.MetaData()
+Base = declarative_base(metadata=metadata)
 
 
 class User(Base):
@@ -19,8 +20,8 @@ class User(Base):
     is_superuser = db.Column(db.Boolean, default=False, nullable=False)
     is_verified = db.Column(db.Boolean, default=False, nullable=False)
 
-    messages_sent = db.relationship("Message", back_populates="sender")
-    messages_received = db.relationship("Message", back_populates="receiver")
+    messages_sent = relationship("Message", back_populates="sender")
+    messages_received = relationship("Message", back_populates="receiver")
 
 
 class Message(Base):
@@ -31,5 +32,5 @@ class Message(Base):
     sender_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     receiver_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
-    sender = db.relationship("User", back_populates="messages_sent")
-    receiver = db.relationship("User", back_populates="messages_received")
+    sender = relationship("User", back_populates="messages_sent")
+    receiver = relationship("User", back_populates="messages_received")

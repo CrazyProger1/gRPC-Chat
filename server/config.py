@@ -11,3 +11,4 @@ LOGGING_FMT = (
     "[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s"
 )
 LOGGING_DATEFMT = "%d/%b/%Y %H:%M:%S"
+DATABASE_URI = "sqlite:///database.db"

@@ -17,6 +17,8 @@ from server.interceptors.auth import AuthInterceptor
 from server.interceptors.logging import LoggingInterceptor
 from server.services.auth import AuthService
 from server.services.chat import ChatService
+from server.database.engine import engine
+from server.database.models import metadata
 
 load_dotenv()
 
@@ -36,6 +38,14 @@ def configure_logging():
     logger.setLevel(LOGGING_LEVEL)
     logger.addHandler(file_handler)
     logger.addHandler(console_handler)
+
+
+def init_db():
+    logger.info("Initializing database...")
+
+    metadata.create_all(engine)
+
+    logger.info("Tables created")
 
 
 def runserver():
@@ -63,6 +73,7 @@ def runserver():
 
 def main():
     configure_logging()
+    init_db()
     runserver()
 
 
