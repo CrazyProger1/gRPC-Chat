@@ -4,6 +4,8 @@ import warnings
 
 import grpc
 
+from gen import auth_pb2 as gen_dot_auth__pb2
+
 GRPC_GENERATED_VERSION = "1.64.0"
 GRPC_VERSION = grpc.__version__
 EXPECTED_ERROR_RELEASE = "1.65.0"
@@ -41,14 +43,66 @@ class AuthServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
+        self.RegisterUser = channel.unary_unary(
+            "/AuthService/RegisterUser",
+            request_serializer=gen_dot_auth__pb2.UserRegisterRequest.SerializeToString,
+            response_deserializer=gen_dot_auth__pb2.UserRegisterReply.FromString,
+            _registered_method=True,
+        )
+        self.LoginUser = channel.unary_unary(
+            "/AuthService/LoginUser",
+            request_serializer=gen_dot_auth__pb2.UserLoginRequest.SerializeToString,
+            response_deserializer=gen_dot_auth__pb2.UserLoginReply.FromString,
+            _registered_method=True,
+        )
+        self.RefreshUserToken = channel.unary_unary(
+            "/AuthService/RefreshUserToken",
+            request_serializer=gen_dot_auth__pb2.RefreshUserTokenReply.SerializeToString,
+            response_deserializer=gen_dot_auth__pb2.RefreshUserTokenReply.FromString,
+            _registered_method=True,
+        )
 
 
 class AuthServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
+    def RegisterUser(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
+
+    def LoginUser(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
+
+    def RefreshUserToken(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
+
 
 def add_AuthServiceServicer_to_server(servicer, server):
-    rpc_method_handlers = {}
+    rpc_method_handlers = {
+        "RegisterUser": grpc.unary_unary_rpc_method_handler(
+            servicer.RegisterUser,
+            request_deserializer=gen_dot_auth__pb2.UserRegisterRequest.FromString,
+            response_serializer=gen_dot_auth__pb2.UserRegisterReply.SerializeToString,
+        ),
+        "LoginUser": grpc.unary_unary_rpc_method_handler(
+            servicer.LoginUser,
+            request_deserializer=gen_dot_auth__pb2.UserLoginRequest.FromString,
+            response_serializer=gen_dot_auth__pb2.UserLoginReply.SerializeToString,
+        ),
+        "RefreshUserToken": grpc.unary_unary_rpc_method_handler(
+            servicer.RefreshUserToken,
+            request_deserializer=gen_dot_auth__pb2.RefreshUserTokenReply.FromString,
+            response_serializer=gen_dot_auth__pb2.RefreshUserTokenReply.SerializeToString,
+        ),
+    }
     generic_handler = grpc.method_handlers_generic_handler(
         "AuthService", rpc_method_handlers
     )
@@ -59,3 +113,93 @@ def add_AuthServiceServicer_to_server(servicer, server):
 # This class is part of an EXPERIMENTAL API.
 class AuthService(object):
     """Missing associated documentation comment in .proto file."""
+
+    @staticmethod
+    def RegisterUser(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            "/AuthService/RegisterUser",
+            gen_dot_auth__pb2.UserRegisterRequest.SerializeToString,
+            gen_dot_auth__pb2.UserRegisterReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True,
+        )
+
+    @staticmethod
+    def LoginUser(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            "/AuthService/LoginUser",
+            gen_dot_auth__pb2.UserLoginRequest.SerializeToString,
+            gen_dot_auth__pb2.UserLoginReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True,
+        )
+
+    @staticmethod
+    def RefreshUserToken(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            "/AuthService/RefreshUserToken",
+            gen_dot_auth__pb2.RefreshUserTokenReply.SerializeToString,
+            gen_dot_auth__pb2.RefreshUserTokenReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True,
+        )

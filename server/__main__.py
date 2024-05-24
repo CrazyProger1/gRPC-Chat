@@ -13,12 +13,12 @@ from server.config import (
     LOGGING_LEVEL,
     MAX_WORKERS,
 )
+from server.database.engine import engine
+from server.database.models import metadata
 from server.interceptors.auth import AuthInterceptor
 from server.interceptors.logging import LoggingInterceptor
 from server.services.auth import AuthService
 from server.services.chat import ChatService
-from server.database.engine import engine
-from server.database.models import metadata
 
 load_dotenv()
 

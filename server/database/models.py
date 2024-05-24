@@ -20,9 +20,6 @@ class User(Base):
     is_superuser = db.Column(db.Boolean, default=False, nullable=False)
     is_verified = db.Column(db.Boolean, default=False, nullable=False)
 
-    messages_sent = relationship("Message", back_populates="sender")
-    messages_received = relationship("Message", back_populates="receiver")
-
 
 class Message(Base):
     __tablename__ = "message"
@@ -32,5 +29,5 @@ class Message(Base):
     sender_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     receiver_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
-    sender = relationship("User", back_populates="messages_sent")
-    receiver = relationship("User", back_populates="messages_received")
+    sender = relationship("User", foreign_keys=[sender_id])
+    receiver = relationship("User", foreign_keys=[receiver_id])

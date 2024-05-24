@@ -10,6 +10,9 @@ class BaseRepository(ABC):
     def read(self, pk: any): ...
 
     @abstractmethod
+    def read_by(self, column: str, value: any): ...
+
+    @abstractmethod
     def read_many(self, filters: dict) -> Iterable: ...
 
     @abstractmethod

@@ -2,5 +2,40 @@ syntax = "proto3";
 
 
 service AuthService {
+    rpc RegisterUser (UserRegisterRequest) returns (UserRegisterReply);
 
+    rpc LoginUser (UserLoginRequest) returns (UserLoginReply);
+
+    rpc RefreshUserToken (RefreshUserTokenReply) returns (RefreshUserTokenReply);
+}
+
+
+message UserRegisterRequest {
+    string email = 1;
+    string nickname = 2;
+    string password = 3;
+
+}
+
+message UserRegisterReply {
+
+}
+
+message UserLoginRequest {
+    string email = 1;
+    string password = 3;
+}
+
+
+message UserLoginReply {
+    string access = 1;
+    string refresh = 2;
+}
+
+message RefreshUserTokenRequest {
+    string refresh = 1;
+}
+
+message RefreshUserTokenReply {
+    string access = 1;
 }

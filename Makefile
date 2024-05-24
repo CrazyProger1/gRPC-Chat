@@ -15,3 +15,6 @@ cleancode:
 	isort .
 	black .
 
+.PHONY: freeze
+freeze:
+	pip freeze > requirements.txt
