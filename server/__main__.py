@@ -59,7 +59,11 @@ def configure_healthcheck(
         server=server,
     )
 
-    return lambda serv, status: health_servicer.set(serv, status)
+    def set_health(serv, status):
+        logger.info(f"Health status changed for {serv}: {status}")
+        health_servicer.set(serv, status)
+
+    return set_health
 
 
 def init_db():

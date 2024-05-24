@@ -26,9 +26,6 @@ class ChatServicer(chat_pb2_grpc.ChatServicer, HealthyServicer):
 
         super().__init__(set_health=set_health)
 
-    def check_message(self, pk: any):
-        pass
-
     @catch(onlylog=True)
     @permissions(is_authenticated)
     def CreateMessage(self, request: chat_pb2.MessageCreateRequest, context, **kwargs):
@@ -55,7 +52,9 @@ class ChatServicer(chat_pb2_grpc.ChatServicer, HealthyServicer):
             context.abort(grpc.StatusCode.PERMISSION_DENIED, "Not your message")
 
         return chat_pb2.MessageReadReply(
-            message_id=message.id, text=message.text, sender_id=message.sender_id,
+            message_id=message.id,
+            text=message.text,
+            sender_id=message.sender_id,
         )
 
     @catch(onlylog=True)
@@ -63,7 +62,9 @@ class ChatServicer(chat_pb2_grpc.ChatServicer, HealthyServicer):
     def GetMessages(self, request: chat_pb2.MessagesFilteredRequest, context, **kwargs):
         for message in self._message_repository.read_many(receiver_id=context.user.id):
             yield chat_pb2.MessageReadReply(
-                message_id=message.id, text=message.text, sender_id=message.sender_id,
+                message_id=message.id,
+                text=message.text,
+                sender_id=message.sender_id,
             )
 
     @catch(onlylog=True)

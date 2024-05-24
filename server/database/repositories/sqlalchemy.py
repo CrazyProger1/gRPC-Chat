@@ -18,15 +18,11 @@ class SQLAlchemyRepository(BaseRepository):
         self._engine = engine
 
     def _get_sqlalchemy_filters(self, **filters):
-        yield from (
-            self.get_col(col) == val
-            for col, val in filters.items()
-        )
+        yield from (self.get_col(col) == val for col, val in filters.items())
 
     def _read(self, session, **filters):
-        return (
-            session.query(self.model)
-            .filter(*self._get_sqlalchemy_filters(**filters))
+        return session.query(self.model).filter(
+            *self._get_sqlalchemy_filters(**filters)
         )
 
     def get_col(self, column: str) -> db.Column:
@@ -78,10 +74,9 @@ class SQLAlchemyRepository(BaseRepository):
         with Session(self._engine) as session:
             logger.info(f"Updating object {pk}: {data}")
 
-            session.query(self.model).filter(self.get_pk_col() == pk).update({
-                self.get_col(col): val
-                for col, val in data.items()
-            })
+            session.query(self.model).filter(self.get_pk_col() == pk).update(
+                {self.get_col(col): val for col, val in data.items()}
+            )
             session.commit()
 
             logger.info(f"Object updated: {data}")
