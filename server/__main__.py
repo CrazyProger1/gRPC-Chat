@@ -21,8 +21,8 @@ from server.database.repositories.message import MessageRepository
 from server.database.repositories.user import UserRepository
 from server.interceptors.auth import JWTAuthInterceptor
 from server.interceptors.logging import LoggingInterceptor
-from server.services.auth import AuthServicer
-from server.services.chat import ChatServicer
+from server.servicers.auth import AuthServicer
+from server.servicers.chat import ChatServicer
 
 load_dotenv()
 

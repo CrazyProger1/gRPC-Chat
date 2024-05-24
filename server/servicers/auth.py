@@ -7,7 +7,7 @@ from server.database.repositories.user import UserRepository
 from server.utils.jwt import decode_token, generate_token
 from server.utils.logging import catch
 from server.utils.password import hash_password
-from server.services.healthy import HealthyServicer
+from server.servicers.healthy import HealthyServicer
 
 logger = logging.getLogger("chat")
 

@@ -1,10 +1,12 @@
 import logging
 from typing import Callable
 
+import grpc
+
 from gen import chat_pb2, chat_pb2_grpc
 from server.database.repositories.message import MessageRepository
-from server.services.healthy import HealthyServicer
-from server.services.permissions import is_authenticated
+from server.servicers.healthy import HealthyServicer
+from server.servicers.permissions import is_authenticated
 from server.utils.logging import catch
 from server.utils.permissions import permissions
 
@@ -31,7 +33,19 @@ class ChatServicer(chat_pb2_grpc.ChatServicer, HealthyServicer):
     @catch(onlylog=True)
     @permissions(is_authenticated)
     def GetMessage(self, request: chat_pb2.MessageReadRequest, context, **kwargs):
-        return chat_pb2.MessageReadReply()
+        message = self._repository.read(pk=request.message_id)
+
+        if not message:
+            context.abort(grpc.StatusCode.NOT_FOUND, "Message not found")
+
+        if context.user.id not in {message.receiver_id, message.sender_id}:
+            context.abort(grpc.StatusCode.PERMISSION_DENIED, "Not your message")
+
+        return chat_pb2.MessageReadReply(
+            message_id=message.id,
+            text=message.text,
+            sender_id=message.sender_id
+        )
 
     @catch(onlylog=True)
     @permissions(is_authenticated)

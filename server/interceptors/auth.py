@@ -16,31 +16,39 @@ class JWTAuthInterceptor(grpc_interceptor.ServerInterceptor):
     def __init__(self, repository: UserRepository):
         self._repository = repository
 
+    @staticmethod
+    def get_token(metadata) -> str | None:
+        for key, value in metadata:
+            if key == "authorization":
+                try:
+                    return value.split(" ")[1]
+                except IndexError:
+                    pass
+                break
+
+    def authenticate(self, token: str):
+        if not token:
+            return
+
+        try:
+            payload = decode_token(token=token, secret_key=SECRET)
+            user = self._repository.read(pk=payload["id"])
+            return user
+        except JWTError:
+            pass
+
     def intercept(
-        self,
-        method: Callable,
-        request_or_iterator: Any,
-        context: grpc.ServicerContext,
-        method_name: str,
+            self,
+            method: Callable,
+            request_or_iterator: Any,
+            context: grpc.ServicerContext,
+            method_name: str,
     ) -> Any:
 
         metadata = context.invocation_metadata()
-        token = None
-        context.user = None
+        token = self.get_token(metadata=metadata)
+        context.user = self.authenticate(token=token)
 
-        for key, value in metadata:
-            if key == "authorization":
-                token = value.split(" ")[1]
-                break
-
-        if token:
-            try:
-                payload = decode_token(token=token, secret_key=SECRET)
-                user = self._repository.read(pk=payload["id"])
-                context.user = user
-
-                logger.info(f"User authenticated: {user}")
-            except JWTError as e:
-                pass
+        logger.info(f"Current user: {context.user}")
 
         return method(request_or_iterator, context)
