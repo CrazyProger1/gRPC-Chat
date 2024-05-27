@@ -1,12 +1,14 @@
 import logging
 from concurrent import futures
-from typing import Callable
+from functools import cache
+from typing import Callable, Iterable
 
 import grpc
 from dotenv import load_dotenv
 from grpc_health.v1 import health, health_pb2, health_pb2_grpc
+from grpc_reflection.v1alpha import reflection
 
-from gen import auth_pb2_grpc, chat_pb2_grpc
+from gen import auth_pb2, auth_pb2_grpc, chat_pb2, chat_pb2_grpc
 from server.config import (
     ADDRESS,
     LOGGING_DATEFMT,
@@ -27,6 +29,20 @@ from server.servicers.chat import ChatServicer
 load_dotenv()
 
 logger = logging.getLogger("chat")
+
+
+@cache
+def get_service_names() -> Iterable[str]:
+    names = [
+        reflection.SERVICE_NAME,
+        health.SERVICE_NAME,
+    ]
+
+    for mod in (auth_pb2, chat_pb2):
+        names += [
+            service.full_name for service in mod.DESCRIPTOR.services_by_name.values()
+        ]
+    return names
 
 
 def configure_logging():
@@ -63,7 +79,14 @@ def configure_healthcheck(
         logger.info(f"Health status changed for {serv}: {status}")
         health_servicer.set(serv, status)
 
+    for service in get_service_names():
+        set_health(service, health_pb2.HealthCheckResponse.SERVING)
+
     return set_health
+
+
+def configure_reflection(server: grpc.Server):
+    reflection.enable_server_reflection(get_service_names(), server)
 
 
 def init_db():
@@ -88,6 +111,7 @@ def runserver():
     logger.info("Server initialized")
 
     set_health = configure_healthcheck(server=server)
+    configure_reflection(server=server)
 
     chat_pb2_grpc.add_ChatServicerServicer_to_server(
         servicer=ChatServicer(

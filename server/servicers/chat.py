@@ -16,10 +16,10 @@ logger = logging.getLogger("chat")
 
 class ChatServicer(chat_pb2_grpc.ChatServicer, HealthyServicer):
     def __init__(
-            self,
-            message_repository: MessageRepository,
-            user_repository: UserRepository,
-            set_health: Callable,
+        self,
+        message_repository: MessageRepository,
+        user_repository: UserRepository,
+        set_health: Callable,
     ):
         self._message_repository = message_repository
         self._user_repository = user_repository
