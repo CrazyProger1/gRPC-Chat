@@ -1,8 +1,6 @@
-from typing import ClassVar as _ClassVar
-from typing import Optional as _Optional
-
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
+from typing import ClassVar as _ClassVar, Optional as _Optional
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -14,12 +12,7 @@ class UserRegisterRequest(_message.Message):
     email: str
     nickname: str
     password: str
-    def __init__(
-        self,
-        email: _Optional[str] = ...,
-        nickname: _Optional[str] = ...,
-        password: _Optional[str] = ...,
-    ) -> None: ...
+    def __init__(self, email: _Optional[str] = ..., nickname: _Optional[str] = ..., password: _Optional[str] = ...) -> None: ...
 
 class UserRegisterReply(_message.Message):
     __slots__ = ()
@@ -31,9 +24,7 @@ class UserLoginRequest(_message.Message):
     PASSWORD_FIELD_NUMBER: _ClassVar[int]
     email: str
     password: str
-    def __init__(
-        self, email: _Optional[str] = ..., password: _Optional[str] = ...
-    ) -> None: ...
+    def __init__(self, email: _Optional[str] = ..., password: _Optional[str] = ...) -> None: ...
 
 class UserLoginReply(_message.Message):
     __slots__ = ("access", "refresh")
@@ -41,9 +32,7 @@ class UserLoginReply(_message.Message):
     REFRESH_FIELD_NUMBER: _ClassVar[int]
     access: str
     refresh: str
-    def __init__(
-        self, access: _Optional[str] = ..., refresh: _Optional[str] = ...
-    ) -> None: ...
+    def __init__(self, access: _Optional[str] = ..., refresh: _Optional[str] = ...) -> None: ...
 
 class RefreshUserTokenRequest(_message.Message):
     __slots__ = ("refresh",)

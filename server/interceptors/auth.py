@@ -32,17 +32,19 @@ class JWTAuthInterceptor(grpc_interceptor.ServerInterceptor):
 
         try:
             payload = decode_token(token=token, secret_key=SECRET)
+            if payload.get("type") != "access":
+                return
             user = self._repository.read(pk=payload["id"])
             return user
         except JWTError:
             pass
 
     def intercept(
-        self,
-        method: Callable,
-        request_or_iterator: Any,
-        context: grpc.ServicerContext,
-        method_name: str,
+            self,
+            method: Callable,
+            request_or_iterator: Any,
+            context: grpc.ServicerContext,
+            method_name: str,
     ) -> Any:
 
         metadata = context.invocation_metadata()

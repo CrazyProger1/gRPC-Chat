@@ -7,33 +7,32 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import descriptor_pool as _descriptor_pool
 from google.protobuf import symbol_database as _symbol_database
 from google.protobuf.internal import builder as _builder
-
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
-    b'\n\x0egen/auth.proto"H\n\x13UserRegisterRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08nickname\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t"\x13\n\x11UserRegisterReply"3\n\x10UserLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t"1\n\x0eUserLoginReply\x12\x0e\n\x06\x61\x63\x63\x65ss\x18\x01 \x01(\t\x12\x0f\n\x07refresh\x18\x02 \x01(\t"*\n\x17RefreshUserTokenRequest\x12\x0f\n\x07refresh\x18\x01 \x01(\t"\'\n\x15RefreshUserTokenReply\x12\x0e\n\x06\x61\x63\x63\x65ss\x18\x01 \x01(\t2\xbd\x01\n\x0c\x41uthServicer\x12\x38\n\x0cRegisterUser\x12\x14.UserRegisterRequest\x1a\x12.UserRegisterReply\x12/\n\tLoginUser\x12\x11.UserLoginRequest\x1a\x0f.UserLoginReply\x12\x42\n\x10RefreshUserToken\x12\x16.RefreshUserTokenReply\x1a\x16.RefreshUserTokenReplyb\x06proto3'
-)
+
+
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0egen/auth.proto\"H\n\x13UserRegisterRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08nickname\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t\"\x13\n\x11UserRegisterReply\"3\n\x10UserLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t\"1\n\x0eUserLoginReply\x12\x0e\n\x06\x61\x63\x63\x65ss\x18\x01 \x01(\t\x12\x0f\n\x07refresh\x18\x02 \x01(\t\"*\n\x17RefreshUserTokenRequest\x12\x0f\n\x07refresh\x18\x01 \x01(\t\"\'\n\x15RefreshUserTokenReply\x12\x0e\n\x06\x61\x63\x63\x65ss\x18\x01 \x01(\t2\xbf\x01\n\x0c\x41uthServicer\x12\x38\n\x0cRegisterUser\x12\x14.UserRegisterRequest\x1a\x12.UserRegisterReply\x12/\n\tLoginUser\x12\x11.UserLoginRequest\x1a\x0f.UserLoginReply\x12\x44\n\x10RefreshUserToken\x12\x18.RefreshUserTokenRequest\x1a\x16.RefreshUserTokenReplyb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, "gen.auth_pb2", _globals)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'gen.auth_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
-    DESCRIPTOR._loaded_options = None
-    _globals["_USERREGISTERREQUEST"]._serialized_start = 18
-    _globals["_USERREGISTERREQUEST"]._serialized_end = 90
-    _globals["_USERREGISTERREPLY"]._serialized_start = 92
-    _globals["_USERREGISTERREPLY"]._serialized_end = 111
-    _globals["_USERLOGINREQUEST"]._serialized_start = 113
-    _globals["_USERLOGINREQUEST"]._serialized_end = 164
-    _globals["_USERLOGINREPLY"]._serialized_start = 166
-    _globals["_USERLOGINREPLY"]._serialized_end = 215
-    _globals["_REFRESHUSERTOKENREQUEST"]._serialized_start = 217
-    _globals["_REFRESHUSERTOKENREQUEST"]._serialized_end = 259
-    _globals["_REFRESHUSERTOKENREPLY"]._serialized_start = 261
-    _globals["_REFRESHUSERTOKENREPLY"]._serialized_end = 300
-    _globals["_AUTHSERVICER"]._serialized_start = 303
-    _globals["_AUTHSERVICER"]._serialized_end = 492
+  DESCRIPTOR._loaded_options = None
+  _globals['_USERREGISTERREQUEST']._serialized_start=18
+  _globals['_USERREGISTERREQUEST']._serialized_end=90
+  _globals['_USERREGISTERREPLY']._serialized_start=92
+  _globals['_USERREGISTERREPLY']._serialized_end=111
+  _globals['_USERLOGINREQUEST']._serialized_start=113
+  _globals['_USERLOGINREQUEST']._serialized_end=164
+  _globals['_USERLOGINREPLY']._serialized_start=166
+  _globals['_USERLOGINREPLY']._serialized_end=215
+  _globals['_REFRESHUSERTOKENREQUEST']._serialized_start=217
+  _globals['_REFRESHUSERTOKENREQUEST']._serialized_end=259
+  _globals['_REFRESHUSERTOKENREPLY']._serialized_start=261
+  _globals['_REFRESHUSERTOKENREPLY']._serialized_end=300
+  _globals['_AUTHSERVICER']._serialized_start=303
+  _globals['_AUTHSERVICER']._serialized_end=494
 # @@protoc_insertion_point(module_scope)

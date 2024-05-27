@@ -6,7 +6,7 @@ service AuthServicer {
 
     rpc LoginUser (UserLoginRequest) returns (UserLoginReply);
 
-    rpc RefreshUserToken (RefreshUserTokenReply) returns (RefreshUserTokenReply);
+    rpc RefreshUserToken (RefreshUserTokenRequest) returns (RefreshUserTokenReply);
 }
 
 
