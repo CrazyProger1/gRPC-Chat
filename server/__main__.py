@@ -61,7 +61,7 @@ def configure_logging():
 
 
 def configure_healthcheck(
-    server: grpc.Server,
+        server: grpc.Server,
 ) -> Callable[[str, health_pb2.HealthCheckResponse.ServingStatus], any]:
     health_servicer = health.HealthServicer(
         experimental_non_blocking=True,
@@ -137,7 +137,10 @@ def runserver():
 
     logger.info(f"Server started on {ADDRESS}")
 
-    server.wait_for_termination()
+    try:
+        server.wait_for_termination()
+    except KeyboardInterrupt:
+        logger.info(f"Server terminated")
 
 
 def main():
